@@ -2,11 +2,13 @@
 //import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignUp from './Pages/SignUp';
 import Login from './Pages/Login';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginHome from './Pages/LoginHome';
 import Home from './Pages/Home';
-
+import { AuthProvider } from './AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   //const [arrAuthors, setAuthors] = useState([]);
@@ -26,14 +28,17 @@ function App() {
   */
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/register' element={<SignUp />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/home' element={<Home />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginHome />} />
+                    <Route path='/signup' element={<SignUp />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/home' element={<PrivateRoute element={<Home />} />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
+
       <div className="d-flex justify-content-center align-items-center vh-100">
         {/*
         <div className="card">
