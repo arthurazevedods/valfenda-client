@@ -1,0 +1,52 @@
+body {
+    background-color: #e2d8d8;
+}
+
+.card {
+    border: none;
+}
+
+.card-responsive {
+    width: 100%;
+    max-width: 400px;
+}
+
+@media (max-width: 576px) {
+    .card-responsive {
+        width: 90%;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-responsive {
+        width: 400px;
+    }
+}
+
+.btn-dark:hover {
+    color: #fff;
+    background-color: #0b5ed7;
+    border-color: #0b5ed7;
+}
+
+.form {
+    padding: 10px;
+    height: auto;
+}
+
+.form input {
+    margin-bottom: 12px;
+    border-radius: 3px;
+}
+
+.form input:focus {
+    box-shadow: none;
+}
+
+.form button {
+    margin-top: 20px;
+}
+
+.button-link {
+    color: #1778f2;
+}
