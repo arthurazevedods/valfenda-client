@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
+const API_URL = 'https://valfenda-api.vercel.app/api'; 
+
 const SignUp = () => {
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -26,7 +28,7 @@ const SignUp = () => {
 
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:8080/api/users/signup", { name, email, password });
+            const response = await axios.post(`${API_URL}/users/signup`, { name, email, password });
             if (response.data === 'exist') {
                 setError('Usuário já existe');
             } else {
@@ -34,10 +36,9 @@ const SignUp = () => {
             }
         } catch (e) {
             if (e.response && e.response.status === 403) {
-                alert("O número máximo de usuários foi atingido. Não é possível criar mais contas.");
+                setError("O número máximo de usuários foi atingido.");
             } else {
-                console.error(e);
-                alert("Erro ao tentar criar a conta.");
+                setError("Erro ao tentar criar a conta.");
             }
         } finally {
             setLoading(false);

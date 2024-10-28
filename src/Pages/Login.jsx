@@ -6,6 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from '../AuthContext'; // Importando o hook de autenticação
 
+const API_URL = 'https://valfenda-api.vercel.app/api'; 
+
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth(); // Pegando a função de login do contexto
@@ -27,7 +29,7 @@ const Login = () => {
 
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:8080/api/users/login", { email, password });
+            const response = await axios.post(`${API_URL}/users/login`, { email, password });
             if (response.status === 200 && response.data.user) {
                 const userName = response.data.user.name;
                 // Chamar a função de login do AuthContext
