@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://valfenda-api.vercel.app/api'; 
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -28,7 +27,7 @@ const SignUp = () => {
 
         setLoading(true);
         try {
-            const response = await axios.post(`${API_URL}/users/signup`, { name, email, password });
+            const response = await axios.post(`${import.meta.env.API_URL}/users/signup`, { name, email, password });
             if (response.data === 'exist') {
                 setError('Usuário já existe');
             } else {
