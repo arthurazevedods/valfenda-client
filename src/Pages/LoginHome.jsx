@@ -1,8 +1,10 @@
 import Navbar from "../components/Navbar";
-import { Link, } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import axios from 'axios';
-const API_URL = "https://valfenda-api.onrender.com"
+
+const API_URL = "https://valfenda-api.onrender.com/api"
+
 const LodinHome = () => {
     const [authors, setAuthors] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,24 +26,24 @@ const LodinHome = () => {
         fetchAuthors(); // Chamando a função ao montar o componente
     }, []); // O array vazio faz com que o efeito rode uma vez ao montar o componente
 
-    if (loading) return <p>Carregando autores...</p>;
-    if (error) return <p>{error}</p>;
-
     return (
         <>
             <Navbar />
             <div className="container">
-
                 <Link to='/login' className="btn button-link">Login</Link>
             </div>
             <div className="container">
-            <h3>Autores:</h3>
-            <ul>
-                {authors.map((author) => (
-                    <li key={author.id}>{author.name}</li> // Renderizando a lista de autores
-                ))}
-            </ul>
-        </div>
+                <h3>Autores:</h3>
+                {loading && <p>Carregando autores...</p>} {/* Exibindo o loading */}
+                {error && <p>{error}</p>} {/* Exibindo erro se houver */}
+                {!loading && !error && (
+                    <ul>
+                        {authors.map((author) => (
+                            <li key={author._id}>{author.name}</li> // Renderizando a lista de autores
+                        ))}
+                    </ul>
+                )}
+            </div>
         </>
     );
 }

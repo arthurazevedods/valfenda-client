@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from '../AuthContext'; // Importando o hook de autenticação
 
-const API_URL = "https://valfenda-api.onrender.com"
+const API_URL = "https://valfenda-api.onrender.com/api"
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth(); // Pegando a função de login do contexto
