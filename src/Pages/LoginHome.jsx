@@ -16,7 +16,7 @@ const LodinHome = () => {
                 setAuthors(response.data); // Armazenando os autores no estado
                 setLoading(false); // Parando o loading
             } catch (e) {
-                setError('Erro ao carregar autores:', e);
+                setError(`Erro ao carregar autores: ${e.message}`);
                 setLoading(false); // Parando o loading em caso de erro
             }
         };
