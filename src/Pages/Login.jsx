@@ -31,6 +31,8 @@ const Login = () => {
             const response = await axios.post(`${API_URL}/users/login`, { email, password });
             if (response.status === 200 && response.data.user) {
                 const userName = response.data.user.name;
+                const token = response.data.token;
+                localStorage.setItem('token', token);
                 // Chamar a função de login do AuthContext
                 login({ name: userName, email }); // Passar os dados do usuário para o contexto
                 navigate('/home', { state: { name: userName, email } });

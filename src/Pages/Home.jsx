@@ -14,10 +14,14 @@ const Home = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        // Função para buscar os autores do backend
         const fetchAuthors = async () => {
+            const token = localStorage.getItem('token'); // Pegando o token do localStorage
             try {
-                const response = await axios.get(`${API_URL}/authors`);
+                const response = await axios.get(`${API_URL}/authors`, {
+                    headers: {
+                        Authorization: `Bearer ${token}` // Enviando o token no cabeçalho
+                    }
+                });
                 setAuthors(response.data); // Armazenando os autores no estado
                 setLoading(false); // Parando o loading
             } catch (e) {
@@ -25,9 +29,9 @@ const Home = () => {
                 setLoading(false); // Parando o loading em caso de erro
             }
         };
-
+    
         fetchAuthors(); // Chamando a função ao montar o componente
-    }, []); // O array vazio faz com que o efeito rode uma vez ao montar o componente
+    }, []);
 
     return (
         <>  
