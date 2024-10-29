@@ -6,7 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from '../AuthContext'; // Importando o hook de autenticação
 
-const API_URL = "https://valfenda-api.onrender.com/api"
+const API_URL =  process.env.REACT_APP_LOCAL_URL;
+
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth(); // Pegando a função de login do contexto
@@ -18,35 +19,51 @@ const Login = () => {
     const validateForm = () => {
         return email.trim() !== '' && password.trim() !== '';
     };
-
+    console.log("API_URL:", API_URL);
     async function submit(e) {
         e.preventDefault();
+        console.log('submit')
         if (!validateForm()) {
             setError('Email e senha são obrigatórios');
             return;
         }
-
+    
         setLoading(true);
+        console.log('pos setloading')
         try {
+            console.log('try')
             const response = await axios.post(`${API_URL}/users/login`, { email, password });
+            console.log('Response:', response); // Log da resposta da API
+        
+            // Adicione logs para ver o que vem na resposta
+            console.log('Response data:', response.data);
+            
             if (response.status === 200 && response.data.user) {
                 const userName = response.data.user.name;
                 const token = response.data.token;
-                localStorage.setItem('token', token);
-                // Chamar a função de login do AuthContext
-                login({ name: userName, email }); // Passar os dados do usuário para o contexto
-                navigate('/home', { state: { name: userName, email } });
+                
+                if (token && typeof token === 'string') {
+                    localStorage.setItem('token', token);
+                    login({ name: userName, email }); // Passar os dados do usuário para o contexto
+                    console.log('Navigating to /home'); // Log antes da navegação
+                    navigate('/home', { state: { name: userName, email } });
+                } else {
+                    setError('Erro ao armazenar o token');
+                }
+            } else {
+                setError('Erro: Usuário não encontrado');
             }
         } catch (e) {
+            console.error('Error caught:', e); // Log para capturar o erro
             if (e.response && e.response.data.message) {
                 setError(e.response.data.message);
             } else {
                 setError('Erro ao tentar fazer login');
             }
-        } finally {
-            setLoading(false);
         }
+        
     }
+    
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">

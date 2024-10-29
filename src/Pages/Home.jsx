@@ -3,7 +3,10 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
-const API_URL = "https://valfenda-api.onrender.com/api"
+const isLocalhost = window.location.hostname === "localhost";
+
+const API_URL = isLocalhost ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_API_URL;
+
 
 const Home = () => {
     const location = useLocation();
@@ -15,18 +18,18 @@ const Home = () => {
 
     useEffect(() => {
         const fetchAuthors = async () => {
-            const token = localStorage.getItem('token'); // Pegando o token do localStorage
+            const token = localStorage.getItem('token'); // Recupera o token armazenado
             try {
                 const response = await axios.get(`${API_URL}/authors`, {
                     headers: {
-                        Authorization: `Bearer ${token}` // Enviando o token no cabeçalho
-                    }
+                        Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho
+                    },
                 });
-                setAuthors(response.data); // Armazenando os autores no estado
-                setLoading(false); // Parando o loading
+                setAuthors(response.data);
+                setLoading(false);
             } catch (e) {
                 setError(`Erro ao carregar autores: ${e.message}`);
-                setLoading(false); // Parando o loading em caso de erro
+                setLoading(false);
             }
         };
     
@@ -37,7 +40,7 @@ const Home = () => {
         <>  
             <Navbar />
             <div className="container">
-                <h1>Bem-vindo, {name}!</h1>
+                <h1>Bem-vindo(a), {name}!</h1>
                 <p>Email: {email}</p>
             </div>
             <div className="container">
