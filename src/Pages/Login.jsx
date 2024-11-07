@@ -32,15 +32,10 @@ const Login = () => {
         }
     
         setLoading(true);
-        console.log('pos setloading')
+
         try {
-            console.log('try')
             const response = await axios.post(`${API_URL}/users/login`, { email, password });
-            console.log('Response:', response); // Log da resposta da API
-        
-            // Adicione logs para ver o que vem na resposta
-            console.log('Response data:', response.data);
-            
+
             if (response.status === 200 && response.data.user) {
                 const userName = response.data.user.name;
                 const token = response.data.token;
@@ -48,7 +43,6 @@ const Login = () => {
                 if (token && typeof token === 'string') {
                     localStorage.setItem('token', token);
                     login({ name: userName, email }); // Passar os dados do usuário para o contexto
-                    console.log('Navigating to /home'); // Log antes da navegação
                     navigate('/home', { state: { name: userName, email } });
                 } else {
                     setError('Erro ao armazenar o token');
