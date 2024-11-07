@@ -6,7 +6,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from '../AuthContext'; // Importando o hook de autenticação
 
-const API_URL =  process.env.REACT_APP_LOCAL_URL;
+const isLocalhost = window.location.hostname === "localhost";
+
+const API_URL = isLocalhost ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_API_URL;
 
 const Login = () => {
     const navigate = useNavigate();
@@ -20,6 +22,7 @@ const Login = () => {
         return email.trim() !== '' && password.trim() !== '';
     };
     console.log("API_URL:", API_URL);
+
     async function submit(e) {
         e.preventDefault();
         console.log('submit')
@@ -60,6 +63,8 @@ const Login = () => {
             } else {
                 setError('Erro ao tentar fazer login');
             }
+        } finally {
+            setLoading(false); // Garante que o loading seja desativado após a tentativa de login
         }
         
     }

@@ -25,7 +25,13 @@ const Home = () => {
                         Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho
                     },
                 });
-                setAuthors(response.data);
+                
+                // Verifica se a resposta é um array antes de definir o estado
+                if (Array.isArray(response.data)) {
+                    setAuthors(response.data);
+                } else {
+                    setError("Erro: formato de dados inesperado"); // Trate caso a API retorne um formato incorreto
+                }
                 setLoading(false);
             } catch (e) {
                 setError(`Erro ao carregar autores: ${e.message}`);
@@ -35,6 +41,7 @@ const Home = () => {
     
         fetchAuthors(); // Chamando a função ao montar o componente
     }, []);
+    
 
     return (
         <>  
