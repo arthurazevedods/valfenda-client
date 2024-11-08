@@ -3,10 +3,11 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
-const isLocalhost = window.location.hostname === "localhost";
+//const isLocalhost = window.location.hostname === "localhost";
 
-const API_URL = isLocalhost ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_API_URL;
+//const API_URL = isLocalhost ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_API_URL;
 
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Home = () => {
     const location = useLocation();
