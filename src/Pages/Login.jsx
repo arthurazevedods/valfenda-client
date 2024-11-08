@@ -32,7 +32,7 @@ const Login = () => {
             setError('Email e senha são obrigatórios');
             return;
         }
-    
+
         setLoading(true);
 
         try {
@@ -41,7 +41,8 @@ const Login = () => {
             if (response.status === 200 && response.data.user) {
                 const userName = response.data.user.name;
                 const token = response.data.token;
-                
+                console.log('Response:', response);
+                console.log('Token:', response.data.token);
                 if (token && typeof token === 'string') {
                     localStorage.setItem('token', token);
                     login({ name: userName, email }); // Passar os dados do usuário para o contexto
@@ -62,9 +63,9 @@ const Login = () => {
         } finally {
             setLoading(false); // Garante que o loading seja desativado após a tentativa de login
         }
-        
+
     }
-    
+
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
