@@ -6,11 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from '../AuthContext'; // Importando o hook de autenticação
 
-//const isLocalhost = window.location.hostname === "localhost";
+const isLocalhost = window.location.hostname === "localhost";
 
-//const API_URL = isLocalhost ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_API_URL;
+const API_URL = isLocalhost ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_API_URL;
 
-const API_URL = process.env.REACT_APP_API_URL;
 
 const Login = () => {
     const navigate = useNavigate();
@@ -23,11 +22,10 @@ const Login = () => {
     const validateForm = () => {
         return email.trim() !== '' && password.trim() !== '';
     };
-    console.log("API_URL:", API_URL);
 
     async function submit(e) {
         e.preventDefault();
-        console.log('submit')
+        
         if (!validateForm()) {
             setError('Email e senha são obrigatórios');
             return;
@@ -41,8 +39,7 @@ const Login = () => {
             if (response.status === 200 && response.data.user) {
                 const userName = response.data.user.name;
                 const token = response.data.token;
-                console.log('Response:', response);
-                console.log('Token:', response.data.token);
+
                 if (token && typeof token === 'string') {
                     localStorage.setItem('token', token);
                     login({ name: userName, email }); // Passar os dados do usuário para o contexto
