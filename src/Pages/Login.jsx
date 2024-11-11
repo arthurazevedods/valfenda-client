@@ -4,13 +4,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { useAuth } from '../AuthContext'; // Importando o hook de autenticação
+import { useAuth } from '../AuthContext'; 
 
 const isLocalhost = window.location.hostname === "localhost";
 
 const API_URL = isLocalhost ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_API_URL;
 
-
+console.log(API_URL)
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth(); // Pegando a função de login do contexto
@@ -42,6 +42,7 @@ const Login = () => {
 
                 if (token && typeof token === 'string') {
                     localStorage.setItem('token', token);
+
                     login({ name: userName, email }); // Passar os dados do usuário para o contexto
                     navigate('/home', { state: { name: userName, email } });
                 } else {
