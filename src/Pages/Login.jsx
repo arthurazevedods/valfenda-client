@@ -67,7 +67,7 @@ const Login = () => {
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
-            <div className="card card-responsive">
+            <div className="card bg-white card-responsive">
                 <div className="form px-4">
                     <h3 className="text-center mb-4">LOGIN</h3>
                     {error && <div className="alert alert-danger">{error}</div>}
