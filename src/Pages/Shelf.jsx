@@ -1,7 +1,5 @@
-import './Card.css'
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-const Card = (props) => {
+const Shelf = (props) => {
     return (
 
         <div className="card bg-warning">
@@ -16,12 +14,6 @@ const Card = (props) => {
                         <span className="big-text text-white">15</span>
                         <span className="regular-text text-white">Nro de Autores</span>
                     </div>
-                    <div className="item">
-
-                        <Link to='/shelf' className="btn button-link">
-                            Estante
-                        </Link>
-                    </div>
                 </div>
             </div>
         </div>
@@ -29,9 +21,9 @@ const Card = (props) => {
     );
 }
 
-Card.propTypes = {
+Shelf.propTypes = {
     nome: PropTypes.string
 };
 
 
-export default Card;
+export default Shelf;

@@ -9,6 +9,7 @@ import LoginHome from './Pages/LoginHome';
 import Home from './Pages/Home';
 import { AuthProvider } from './AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import Shelf from './Pages/Shelf';
 
 function App() {
   //const [arrAuthors, setAuthors] = useState([]);
@@ -35,6 +36,7 @@ function App() {
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/home' element={<PrivateRoute element={<Home />} />} />
+                    <Route path='/shelf' element={<PrivateRoute element={<Shelf />} />} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
