@@ -33,6 +33,7 @@ const Home = () => {
                     axios.get(`${API_URL}/shelves`, { headers: { Authorization: `Bearer ${token}` } }),
                 ]);
 
+
                 setAuthors(authorsResponse.data || []);
                 setShelves(shelvesResponse.data || []);
             } catch (error) {

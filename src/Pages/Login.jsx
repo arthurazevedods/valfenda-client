@@ -41,8 +41,9 @@ const Login = () => {
                 const token = response.data.token;
 
                 if (token && typeof token === 'string') {
+                    console.log("token é string")
                     localStorage.setItem('token', token);
-
+                    
                     login({ name: userName, email }); // Passar os dados do usuário para o contexto
                     navigate('/home', { state: { name: userName, email } });
                 } else {
