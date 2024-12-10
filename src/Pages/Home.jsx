@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
-import Navbar from "../components/Navbar"; 
-import Card from "../components/Card/Card"; 
+import Navbar from "../components/Navbar";
+import Card from "../components/Card/Card";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
@@ -19,63 +19,37 @@ const Home = () => {
     const [errorShelves, setErrorShelves] = useState('');
 
     useEffect(() => {
-        const fetchAuthors = async () => {
-            const token = localStorage.getItem('token'); 
-            console.log("Token na Home:", token);
-            try {
-                const response = await axios.get(`${API_URL}/authors`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (Array.isArray(response.data)) {
-                    setAuthors(response.data);
-                } else {
-                    setErrorAuthors("Erro: formato de dados inesperado");
-                }
-            } catch (e) {
-                setErrorAuthors(`Erro ao carregar autores: ${e.message}`);
-            } finally {
-                setLoadingAuthors(false);
-            }
-        };
-
-        const fetchShelves = async () => {
+        const fetchData = async () => {
             const token = localStorage.getItem('token');
-            console.log("Token ao buscar estantes:", token); // Log para verificar o token
-        
             if (!token) {
+                setErrorAuthors("Token não encontrado. Faça login novamente.");
                 setErrorShelves("Token não encontrado. Faça login novamente.");
                 return;
             }
-        
+
             try {
-                const response = await axios.get(`${API_URL}/shelves`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
-                    },
-                });
-                if (Array.isArray(response.data)) {
-                    setShelves(response.data);
-                } else {
-                    setErrorShelves("Erro: formato de dados inesperado");
-                }
-            } catch (e) {
-                setErrorShelves(`Erro ao carregar estantes: ${e.response?.data?.message || e.message}`);
+                const [authorsResponse, shelvesResponse] = await Promise.all([
+                    axios.get(`${API_URL}/authors`, { headers: { Authorization: `Bearer ${token}` } }),
+                    axios.get(`${API_URL}/shelves`, { headers: { Authorization: `Bearer ${token}` } }),
+                ]);
+
+                setAuthors(authorsResponse.data || []);
+                setShelves(shelvesResponse.data || []);
+            } catch (error) {
+                setErrorAuthors("Erro ao carregar autores.", error);
+                setErrorShelves("Erro ao carregar estantes.", error);
             } finally {
+                setLoadingAuthors(false);
                 setLoadingShelves(false);
             }
         };
-        
-        
 
-        fetchAuthors();
-        fetchShelves();
+        fetchData();
     }, []);
 
+
     return (
-        <>  
+        <>
             <Navbar />
             <div className="container">
                 <h1>Bem-vindo(a), {name}!</h1>
@@ -100,7 +74,7 @@ const Home = () => {
                 {!loadingShelves && !errorShelves && (
                     <ul>
                         {shelves.map((shelf) => (
-                            <Card key={shelf.id} nome={shelf.name}/>
+                            <Card key={shelf.id} nome={shelf.name} />
                         ))}
                     </ul>
                 )}
