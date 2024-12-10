@@ -74,7 +74,7 @@ const Home = () => {
                 {!loadingShelves && !errorShelves && (
                     <ul>
                         {shelves.map((shelf) => (
-                            <Card key={shelf.id} nome={shelf.name} />
+                            <Card key={shelf._id} nome={shelf.name} />
                         ))}
                     </ul>
                 )}
