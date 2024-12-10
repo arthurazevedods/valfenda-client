@@ -4,7 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { useAuth } from '../AuthContext'; 
+import { useAuth } from '../AuthContext';
 
 const isLocalhost = window.location.hostname === "localhost";
 
@@ -23,9 +23,9 @@ const Login = () => {
         return email.trim() !== '' && password.trim() !== '';
     };
 
-    async function submit(e) {
+    const submit = async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             setError('Email e senha são obrigatórios');
             return;
@@ -41,10 +41,9 @@ const Login = () => {
                 const token = response.data.token;
 
                 if (token && typeof token === 'string') {
-                    console.log("token é string")
-                    localStorage.setItem('token', token);
-                    
-                    login({ name: userName, email }); // Passar os dados do usuário para o contexto
+                    // Armazenando o token e dados do usuário no contexto
+                    login({ name: userName, email, token });
+
                     navigate('/home', { state: { name: userName, email } });
                 } else {
                     setError('Erro ao armazenar o token');
@@ -53,17 +52,16 @@ const Login = () => {
                 setError('Erro: Usuário não encontrado');
             }
         } catch (e) {
-            console.error('Error caught:', e); // Log para capturar o erro
+            console.error('Error caught:', e);
             if (e.response && e.response.data.message) {
                 setError(e.response.data.message);
             } else {
                 setError('Erro ao tentar fazer login');
             }
         } finally {
-            setLoading(false); // Garante que o loading seja desativado após a tentativa de login
+            setLoading(false);
         }
-
-    }
+    };
 
 
     return (

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types'; // Importando PropTypes
+import PropTypes from 'prop-types';
 
 // Criando o contexto
 const AuthContext = createContext();
@@ -13,13 +13,17 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (token) {
             setIsAuthenticated(true);
+            // Aqui você pode buscar os dados do usuário se necessário
+            // Exemplo: const userData = fetchUserData(token);
+            // setUser(userData);
         }
     }, []);
 
     const login = (userData) => {
         setIsAuthenticated(true);
         setUser(userData);
-        localStorage.setItem('token', userData.token)
+        // Armazenando o token no localStorage
+        localStorage.setItem('token', userData.token);
     };
 
     const logout = () => {
